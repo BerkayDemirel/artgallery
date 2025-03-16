@@ -18,6 +18,28 @@ This plan details the step-by-step development process for the backend of the On
 3. **Image Storage/Retrieval** - Managing artwork images in Supabase
 4. **Newsletter Form** - Processing form submissions from frontend
 
+
+## Progress Tracking
+
+### Completed Tasks
+- ✅ Artsy API Integration
+  - Implemented authentication with Artsy API
+  - Created client for making API requests
+  - Developed service for processing and saving artwork data
+  - Added rate limiting to respect API constraints
+  - Implemented image downloading and storage
+  - Created script for fetching predefined list of artworks
+  - Added unit tests for all components
+  - Added fallback mechanisms for missing data
+
+### In Progress
+- 🔄 Database Setup
+- 🔄 Schema Implementation
+
+### Next Steps
+- Server Initialization
+- Core API Development
+
 ## Development Phases
 
 ## Phase 1: Infrastructure Setup
