@@ -1,5 +1,10 @@
 ---
 description: 
+globs: backend/*
+alwaysApply: false
+---
+---
+description: 
 globs: 
 alwaysApply: false
 ---

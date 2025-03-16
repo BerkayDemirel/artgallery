@@ -116,6 +116,13 @@ This plan details the step-by-step development process for the frontend of the O
 - Final responsive design adjustments
 - Cross-browser testing
 
+### Step 17: Period-Specific Image Implementation
+- Replace generic images with period-specific artwork
+- Implement conditional logic to display different images based on art period
+- Update all image components (period cards, artworks, features, artists)
+- Test image loading and display across all components
+- Ensure responsive behavior with new images
+
 ## Prompts for Code Generation LLM
 
 Below are the prompts for the code-generation LLM to implement each step in a test-driven manner.
@@ -527,6 +534,26 @@ Implement final polish and accessibility improvements:
 Write tests to verify accessibility and performance improvements.
 
 Ensure the final product meets all requirements and provides an excellent user experience across all devices and browsers.
+```
+
+### Frontend Prompt 17: Period-Specific Image Implementation
+
+```markdown
+# Period-Specific Image Implementation
+
+Replace generic images with period-specific artwork:
+
+1. Implement conditional logic to display different images based on art period
+2. Update all image components (period cards, artworks, features, artists)
+3. Test image loading and display across all components
+4. Ensure responsive behavior with new images
+
+Write tests to verify:
+- Image loading and display across all components
+- Conditional logic works as expected
+- Responsive behavior is correct
+
+Ensure the new images are high-quality and load efficiently.
 ```
 
 ## Integration Testing Prompt

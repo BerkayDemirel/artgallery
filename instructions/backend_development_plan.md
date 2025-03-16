@@ -57,27 +57,24 @@ This plan details the step-by-step development process for the backend of the On
 - Set up Supabase database storage for emails
 - Write tests for newsletter submission
 
-## Phase 3: Content Generation
+## Phase 3: Data Management
 
-### Step 7: AI Integration
-- Set up OpenAI/Gemini API connections
-- Create helper functions for API calls
-- Implement error handling and retry logic
+### Step 8: File-Based Data Storage
+- Implement file-based storage system
+- Create data directory structure
+- Set up file read/write utilities
 
-### Step 8: Artwork Collection Pipeline
-- Create artwork collection prompts
-- Implement processing for AI responses
-- Store generated artwork data
+### Step 9: Data Schema Implementation
+- Create data structures for periods, artworks, etc.
+- Implement relationships between entities
+- Create TypeScript type definitions
 
-### Step 9: Exposition Generation Pipeline
-- Create exposition generation prompts
-- Process and validate AI responses
-- Store generated period content
+### Step 10: Image Handling
+- ~~Set up image storage in Supabase~~
+- ~~Create image upload/retrieval utilities~~
+- ~~Implement image URL generation~~
 
-### Step 10: Initial Content Seeding
-- Create scripts to generate initial content
-- Upload sample artwork images
-- Populate database with seed data
+**Note:** The frontend now uses direct Unsplash image URLs instead of API-provided URLs. This change was made to simplify the implementation and avoid image loading issues. The backend no longer needs to handle image storage and retrieval.
 
 ## Phase 4: Security & Performance
 

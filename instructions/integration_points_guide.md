@@ -89,21 +89,26 @@ interface NewsletterSubscription {
 
 ## 3. Image Storage/Retrieval
 
-Handling artwork images requires coordination between frontend and backend.
+### Current Implementation
+- Frontend now uses direct Unsplash image URLs for each art period
+- Different images are used for each period (Renaissance, Baroque, Rococo, etc.)
+- Images are displayed using Next.js Image component with proper optimization
+- All image components have been updated to use period-specific conditional logic
 
-### Image Workflow:
+### Original Plan
+- ~~Images were to be stored in Supabase storage~~
+- ~~Backend would provide image URLs through the API~~
+- ~~Frontend would consume these URLs and display images~~
 
-1. **Storage**: Backend stores images in Supabase Storage
-2. **URL Format**: Standard format for image URLs
-3. **Image Sizes**: Define standard image dimensions for different components
-4. **Loading States**: Frontend handles loading states while images are fetched
+### Current Status
+- ✅ COMPLETED: Frontend now uses direct Unsplash URLs instead of API-provided URLs
+- ✅ COMPLETED: Period-specific images implemented for all components
+- ✅ COMPLETED: Image loading issues resolved by using direct URLs
 
-### Integration Process:
-
-1. **Storage Buckets**: Backend creates separate buckets for different image types
-2. **Image Processing**: Backend handles any necessary image processing
-3. **URL Structure**: Agree on consistent URL structure for images
-4. **Fallback Images**: Frontend implements fallback images for loading/error states
+### Next Steps
+- Consider implementing a proper image management system in the future
+- Potentially migrate to a CDN for better performance
+- Add image optimization server for better control over image delivery
 
 ## 4. Newsletter Form
 
