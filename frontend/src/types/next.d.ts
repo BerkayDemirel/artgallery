@@ -1,5 +1,10 @@
-// This file contains type declarations for Next.js modules
-// to fix TypeScript errors in our project
+// This file is no longer needed as we should use the official Next.js types
+// If you have specific augmentations, they should be added to a separate file
+
+// Instead of redefining types, import them from the proper packages
+import 'next';
+import 'next/image';
+import 'next/link';
 
 // Add React namespace declaration
 declare namespace React {
@@ -12,56 +17,6 @@ declare namespace React {
   }
   type FC<P = {}> = (props: P) => JSX.Element;
   type ComponentType<P = {}> = React.FC<P>;
-}
-
-declare module 'next/image' {
-  import { DetailedHTMLProps, ImgHTMLAttributes } from 'react';
-
-  export interface ImageProps extends DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
-    src: string;
-    alt: string;
-    width?: number;
-    height?: number;
-    fill?: boolean;
-    quality?: number;
-    priority?: boolean;
-    loading?: 'lazy' | 'eager';
-    placeholder?: 'blur' | 'empty';
-    blurDataURL?: string;
-    unoptimized?: boolean;
-    onLoadingComplete?: (result: { naturalWidth: number; naturalHeight: number }) => void;
-    layout?: 'fixed' | 'intrinsic' | 'responsive' | 'fill';
-    objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
-    objectPosition?: string;
-    lazyBoundary?: string;
-    lazyRoot?: React.RefObject<HTMLElement>;
-    className?: string;
-    [key: string]: any;
-  }
-
-  const Image: React.FC<ImageProps>;
-  export default Image;
-}
-
-declare module 'next/link' {
-  import { LinkHTMLAttributes } from 'react';
-
-  export interface LinkProps extends LinkHTMLAttributes<HTMLAnchorElement> {
-    href: string;
-    as?: string;
-    replace?: boolean;
-    scroll?: boolean;
-    shallow?: boolean;
-    passHref?: boolean;
-    prefetch?: boolean;
-    locale?: string | false;
-    className?: string;
-    'aria-label'?: string;
-    [key: string]: any;
-  }
-
-  const Link: React.FC<LinkProps>;
-  export default Link;
 }
 
 declare module 'next/navigation' {

@@ -28,7 +28,7 @@ export default function PeriodCard({ period }: PeriodCardProps) {
       className="block group h-full"
     >
       <div className="border border-gray-200 h-full flex flex-col transition-all duration-300 hover:shadow-lg">
-        {/* Card image container - takes up more space */}
+        {/* Card image container */}
         <div className="relative w-full aspect-[3/2] overflow-hidden">
           <Image
             src={period.cardImageUrl || 'https://placehold.co/600x400'}
@@ -38,11 +38,11 @@ export default function PeriodCard({ period }: PeriodCardProps) {
           />
         </div>
 
-        {/* Text content - clean typography */}
+        {/* Text content */}
         <div className="p-6 flex flex-col flex-grow">
-          {/* Period name repeated 4 times like WritingExamples */}
+          {/* Period category label */}
           <div className="text-xs text-gray-500 mb-4">
-            {period.name}{period.name}{period.name}{period.name}
+            ART PERIOD
           </div>
 
           <h2 className="text-3xl font-bold mb-3">{period.name}</h2>

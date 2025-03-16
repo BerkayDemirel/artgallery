@@ -8,6 +8,11 @@ const nextConfig = {
         hostname: 'placehold.co',
         pathname: '**',
       },
+      {
+        protocol: 'https',
+        hostname: '**',
+        pathname: '**',
+      },
     ],
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',

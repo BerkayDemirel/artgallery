@@ -34,15 +34,15 @@ export default function PeriodGallery({ periodId }: PeriodGalleryProps) {
     loadArtworks();
   }, [periodId]);
 
-  const handleSelectArtwork = (artwork: Artwork) => {
+  const handleSelectArtwork = useCallback((artwork: Artwork) => {
     setSelectedArtwork(artwork);
-    setSelectedIndex(artworks.findIndex((a: Artwork) => a.id === artwork.id));
-  };
+    setSelectedIndex(artworks.findIndex((a) => a.id === artwork.id));
+  }, [artworks]);
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setSelectedArtwork(null);
     setSelectedIndex(-1);
-  };
+  }, []);
 
   const handlePrevArtwork = useCallback(() => {
     if (selectedIndex > 0) {
@@ -58,186 +58,137 @@ export default function PeriodGallery({ periodId }: PeriodGalleryProps) {
     }
   }, [artworks, selectedIndex]);
 
-  // Handle keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (!selectedArtwork) return;
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      handleCloseModal();
+    } else if (e.key === 'ArrowLeft') {
+      handlePrevArtwork();
+    } else if (e.key === 'ArrowRight') {
+      handleNextArtwork();
+    }
+  }, [handleCloseModal, handlePrevArtwork, handleNextArtwork]);
 
-      switch (e.key) {
-        case 'Escape':
-          handleCloseModal();
-          break;
-        case 'ArrowLeft':
-          handlePrevArtwork();
-          break;
-        case 'ArrowRight':
-          handleNextArtwork();
-          break;
-      }
-    };
-
-    // Add event listener
-    document.addEventListener('keydown', handleKeyDown as any);
-
-    // Remove event listener on cleanup
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown as any);
-    };
-  }, [selectedArtwork, handlePrevArtwork, handleNextArtwork]);
-
-  if (loading) {
+  // If there's an error, show error message
+  if (error) {
     return (
-      <section className="py-12">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-serif font-bold mb-8 text-center">Masterpieces</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="aspect-square bg-gallery-offwhite animate-pulse rounded-md"></div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <div className="my-16 p-6 bg-red-50 border border-red-200 rounded-md">
+        <h2 className="text-xl font-bold text-red-700 mb-2">Unable to load gallery</h2>
+        <p className="text-red-600">{error}</p>
+      </div>
     );
   }
 
-  if (error) {
+  // If loading, show loading state
+  if (loading) {
     return (
-      <section className="py-12">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-serif font-bold mb-8 text-center">Masterpieces</h2>
-          <div className="text-center text-red-500">{error}</div>
+      <div className="my-16">
+        <h2 className="text-2xl font-bold mb-6">Masterpieces Gallery</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div key={i} className="aspect-square bg-gray-200 animate-pulse rounded-md"></div>
+          ))}
         </div>
-      </section>
+      </div>
+    );
+  }
+
+  // If no artworks, show empty state
+  if (artworks.length === 0) {
+    return (
+      <div className="my-16">
+        <h2 className="text-2xl font-bold mb-6">Masterpieces Gallery</h2>
+        <p className="text-gray-500">No artworks available for this period.</p>
+      </div>
     );
   }
 
   return (
-    <section className="py-12">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl font-serif font-bold mb-8 text-center">Masterpieces</h2>
-
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {artworks.map((artwork: Artwork, index: number) => (
-            <div
-              key={artwork.id}
-              className="relative aspect-square cursor-pointer hover:opacity-90 transition-opacity"
-              onClick={() => handleSelectArtwork(artwork)}
-              onKeyDown={(e: React.KeyboardEvent) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  handleSelectArtwork(artwork);
-                }
-              }}
-              tabIndex={0}
-              role="button"
-              aria-label={`View ${artwork.title} by ${artwork.artist}`}
+    <div className="my-16">
+      <h2 className="text-2xl font-bold mb-6">Masterpieces Gallery</h2>
+      
+      {/* Gallery grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {artworks.map((artwork) => (
+          <button
+            key={artwork.id}
+            onClick={() => handleSelectArtwork(artwork)}
+            className="block w-full aspect-square relative overflow-hidden rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            aria-label={`View ${artwork.title} by ${artwork.artist}`}
+          >
+            <Image
+              src={artwork.imageUrl}
+              alt={`${artwork.title} by ${artwork.artist}`}
+              fill
+              className="object-cover hover:scale-105 transition-transform duration-300"
+            />
+          </button>
+        ))}
+      </div>
+      
+      {/* Modal */}
+      {selectedArtwork && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
+          onClick={handleCloseModal}
+          onKeyDown={handleKeyDown}
+          tabIndex={0}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="artwork-title"
+        >
+          <div 
+            className="relative max-w-4xl w-full bg-white rounded-lg overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button
+              onClick={handleCloseModal}
+              className="absolute top-2 right-2 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-white bg-opacity-70 hover:bg-opacity-100 transition-opacity"
+              aria-label="Close modal"
             >
+              <span className="text-xl">&times;</span>
+            </button>
+            
+            {/* Navigation buttons */}
+            {selectedIndex > 0 && (
+              <button
+                onClick={handlePrevArtwork}
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white bg-opacity-70 hover:bg-opacity-100 transition-opacity"
+                aria-label="Previous artwork"
+              >
+                &larr;
+              </button>
+            )}
+            
+            {selectedIndex < artworks.length - 1 && (
+              <button
+                onClick={handleNextArtwork}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white bg-opacity-70 hover:bg-opacity-100 transition-opacity"
+                aria-label="Next artwork"
+              >
+                &rarr;
+              </button>
+            )}
+            
+            {/* Artwork image */}
+            <div className="relative aspect-square md:aspect-[4/3] w-full">
               <Image
-                src={artwork.imageUrl}
-                alt={artwork.title}
+                src={selectedArtwork.imageUrl}
+                alt={`${selectedArtwork.title} by ${selectedArtwork.artist}`}
                 fill
-                className="object-cover rounded-md"
+                className="object-contain"
               />
             </div>
-          ))}
-        </div>
-
-        {/* Artwork detail modal */}
-        {selectedArtwork && (
-          <div
-            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="artwork-title"
-          >
-            <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto">
-              <div className="p-4 flex justify-between items-center border-b">
-                <h3 id="artwork-title" className="text-xl font-bold">{selectedArtwork.title}</h3>
-                <button
-                  onClick={handleCloseModal}
-                  className="text-gallery-dark hover:text-black"
-                  aria-label="Close modal"
-                >
-                  ✕
-                </button>
-              </div>
-
-              <div className="p-6">
-                <div className="relative h-[50vh] w-full mb-4">
-                  <Image
-                    src={selectedArtwork.imageUrl}
-                    alt={selectedArtwork.title}
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-
-                <div className="space-y-4">
-                  <div>
-                    <p className="text-sm text-gallery-gray">Artist</p>
-                    <p className="font-medium">{selectedArtwork.artist}</p>
-                  </div>
-
-                  <div>
-                    <p className="text-sm text-gallery-gray">Year</p>
-                    <p className="font-medium">{selectedArtwork.year}</p>
-                  </div>
-
-                  <div>
-                    <p className="text-sm text-gallery-gray">Country</p>
-                    <p className="font-medium">{selectedArtwork.country}</p>
-                  </div>
-
-                  <div>
-                    <p className="text-sm text-gallery-gray">Relevance</p>
-                    <p>{selectedArtwork.relevance}</p>
-                  </div>
-
-                  {selectedArtwork.trivia && selectedArtwork.trivia.length > 0 && (
-                    <div>
-                      <p className="text-sm text-gallery-gray">Trivia</p>
-                      <ul className="list-disc pl-5 space-y-1">
-                        {selectedArtwork.trivia.map((item: string, index: number) => (
-                          <li key={index}>{item}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-
-                {/* Navigation buttons */}
-                <div className="flex justify-between mt-8">
-                  <button
-                    onClick={handlePrevArtwork}
-                    disabled={selectedIndex <= 0}
-                    className={`px-4 py-2 rounded ${
-                      selectedIndex <= 0
-                        ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                        : 'bg-gallery-accent text-white hover:bg-opacity-90'
-                    }`}
-                    aria-label="Previous artwork"
-                  >
-                    ← Previous
-                  </button>
-
-                  <button
-                    onClick={handleNextArtwork}
-                    disabled={selectedIndex >= artworks.length - 1}
-                    className={`px-4 py-2 rounded ${
-                      selectedIndex >= artworks.length - 1
-                        ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                        : 'bg-gallery-accent text-white hover:bg-opacity-90'
-                    }`}
-                    aria-label="Next artwork"
-                  >
-                    Next →
-                  </button>
-                </div>
-              </div>
+            
+            {/* Artwork details */}
+            <div className="p-6">
+              <h3 id="artwork-title" className="text-2xl font-bold mb-1">{selectedArtwork.title}</h3>
+              <p className="text-lg mb-4">{selectedArtwork.artist}, {selectedArtwork.year}</p>
+              <p className="text-gray-700">{selectedArtwork.relevance}</p>
             </div>
           </div>
-        )}
-      </div>
-    </section>
+        </div>
+      )}
+    </div>
   );
 }
