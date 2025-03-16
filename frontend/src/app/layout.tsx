@@ -2,11 +2,14 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../styles/globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+});
 
 export const metadata: Metadata = {
-  title: 'Art Gallery',
-  description: 'Explore the world of art through different periods',
+  title: 'CuratorCat | Explore Art Movements',
+  description: 'Discover and learn about different art movements throughout history.',
 };
 
 export default function RootLayout({
@@ -15,16 +18,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <header className="p-4 border-b">
-          <h1 className="text-2xl font-bold">Art Gallery</h1>
-        </header>
-        <main className="container mx-auto p-4">{children}</main>
-        <footer className="p-4 border-t text-center">
-          <p>© {new Date().getFullYear()} Art Gallery</p>
+    <html lang="en" className={inter.variable}>
+      <body className="font-sans bg-white text-gray-900 antialiased">
+        {children}
+        
+        <footer className="py-6 border-t border-gray-200 mt-12">
+          <div className="max-w-6xl mx-auto px-4 text-center text-gray-500 text-sm">
+            <p>© {new Date().getFullYear()} CuratorCat. All rights reserved.</p>
+          </div>
         </footer>
       </body>
     </html>
   );
-} 
+}
