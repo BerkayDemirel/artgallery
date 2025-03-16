@@ -1,67 +1,76 @@
 ---
-id: renaissance
-name: Renaissance
-card_image_url: /static/images/renaissance-card.jpg
-header_image_url: /static/images/renaissance-header.jpg
-description: A period of European cultural, artistic, political, and scientific "rebirth" after the Middle Ages.
-timeline_data:
-  - year: 1400
-    event: Early Renaissance begins in Florence, Italy
-  - year: 1495
-    event: High Renaissance period begins
-  - year: 1520
-    event: High Renaissance ends with Raphael's death
-defining_features:
-  - title: Perspective
-    description: Mathematical perspective was developed, giving paintings a three-dimensional look
-    image_url: /static/images/renaissance-perspective.jpg
-  - title: Realism
-    description: Artists strived for naturalism and realistic depictions of the human form
-    image_url: /static/images/renaissance-realism.jpg
-  - title: Humanism
-    description: Focus shifted from religious subjects to human achievements and potential
-    image_url: /static/images/renaissance-humanism.jpg
-revolutionary_artists:
-  - name: Leonardo da Vinci
-    bio: Italian polymath whose areas of interest included invention, painting, sculpting, architecture, science, music, mathematics, engineering, literature, anatomy, geology, astronomy, botany, writing, history, and cartography.
-    image_url: /static/images/leonardo.jpg
-    notable_works:
-      - Mona Lisa
-      - The Last Supper
-      - Vitruvian Man
-  - name: Michelangelo
-    bio: Italian sculptor, painter, architect and poet who exerted an unparalleled influence on the development of Western art.
-    image_url: /static/images/michelangelo.jpg
-    notable_works:
-      - David
-      - Sistine Chapel ceiling
-      - Pietà
-  - name: Raphael
-    bio: Italian painter and architect of the High Renaissance. His work is admired for its clarity of form, ease of composition, and visual achievement of the Neoplatonic ideal of human grandeur.
-    image_url: /static/images/raphael.jpg
-    notable_works:
-      - The School of Athens
-      - Sistine Madonna
-      - Transfiguration
-did_you_know:
-  - The term "Renaissance" was first used by French historian Jules Michelet in 1855.
-  - Renaissance artists were often masters of multiple disciplines, known as "Renaissance men."
-  - The printing press was invented during this period, revolutionizing the spread of knowledge.
-created_at: 2023-03-15T12:00:00Z
+{
+  "slug": "renaissance",
+  "name": "Renaissance",
+  "introduction": "The Renaissance was a fervent period of European cultural, artistic, political, and economic rebirth following the Middle Ages. Generally described as taking place from the 14th century to the 17th century, it promoted the rediscovery of classical philosophy, literature, and art.",
+  "timelineData": [
+    {
+      "year": 1401,
+      "event": "Competition for the doors of the Florence Baptistery, marking the beginning of Renaissance sculpture."
+    },
+    {
+      "year": 1503,
+      "event": "Leonardo da Vinci starts painting the Mona Lisa, one of the most famous works of art in the world."
+    },
+    {
+      "year": 1508,
+      "event": "Michelangelo begins painting the Sistine Chapel ceiling, a masterpiece of Renaissance art."
+    },
+    {
+      "year": 1486,
+      "event": "Sandro Botticelli completes The Birth of Venus, a quintessential Renaissance masterpiece."
+    }
+  ],
+  "definingFeatures": [
+    {
+      "title": "Humanism",
+      "description": "A shift towards human-centered subjects and a focus on the potential and achievements of individuals, inspired by the rediscovery of ancient Greek and Roman texts."
+    },
+    {
+      "title": "Perspective",
+      "description": "The development and refinement of linear perspective, allowing artists to create more natural and realistic spaces in their works."
+    },
+    {
+      "title": "Realism and Emotion",
+      "description": "An emphasis on accurately depicting the human body, nature, and emotions, leading to more lifelike and expressive artworks."
+    }
+  ],
+  "revolutionaryArtists": [
+    {
+      "name": "Leonardo da Vinci",
+      "bio": "An Italian polymath whose areas of interest included invention, painting, sculpting, architecture, science, music, mathematics, engineering, literature, anatomy, geology, astronomy, botany, writing, history, and cartography. He is widely considered one of the greatest painters of all time.",
+      "notableWorks": [
+        "Mona Lisa",
+        "The Last Supper",
+        "Vitruvian Man"
+      ]
+    },
+    {
+      "name": "Michelangelo",
+      "bio": "An Italian sculptor, painter, architect, and poet of the High Renaissance who exerted an unparalleled influence on the development of Western art. His oeuvre includes some of the most famous sculptures and paintings in the world.",
+      "notableWorks": [
+        "David",
+        "Sistine Chapel ceiling",
+        "The Last Judgment"
+      ]
+    },
+    {
+      "name": "Sandro Botticelli",
+      "bio": "An Italian painter of the Early Renaissance who belonged to the Florentine School under the patronage of Lorenzo de' Medici. Botticelli is known for his mythical and religious scenes as well as his focus on beauty and detail.",
+      "notableWorks": [
+        "The Birth of Venus",
+        "Primavera",
+        "The Adoration of the Magi"
+      ]
+    }
+  ],
+  "didYouKnow": [
+    "The term 'Renaissance' is derived from the French word meaning 'rebirth', reflecting the renewed interest in classical antiquity.",
+    "The use of oil paints, allowing for greater detail and layers in art, became prominent during the Renaissance.",
+    "The invention of the printing press by Johannes Gutenberg in 1440 played a crucial role in the spread of the Renaissance beyond Italy as it facilitated the dissemination of books and ideas."
+  ],
+  "cardImageUrl": "/static/images/periods/renaissance-card.jpg",
+  "headerImageUrl": "/static/images/periods/renaissance-header.jpg",
+  "createdAt": "2025-03-16T16:05:11.463Z"
+}
 ---
-
-# The Renaissance
-
-The Renaissance was a period in European history marking the transition from the Middle Ages to modernity and covering the 15th and 16th centuries. It occurred after the Crisis of the Late Middle Ages and was associated with great social change.
-
-## Origins and Spread
-
-The Renaissance began in Florence, Italy, in the 14th century. Various theories have been proposed to account for its origins and characteristics, focusing on a variety of factors including the social and civic peculiarities of Florence at the time, its political structure, and the patronage of the Medici family.
-
-The Renaissance has a long and complex historiography, and, in line with general skepticism of discrete periodizations, there has been much debate among historians reacting to the 19th-century glorification of the "Renaissance" and individual cultural heroes as "Renaissance men", questioning the usefulness of Renaissance as a term and as a historical delineation.
-
-## Art and Architecture
-
-Renaissance art marks a cultural rebirth at the close of the Middle Ages and rise of the Modern world. One of the distinguishing features of Renaissance art was its development of highly realistic linear perspective. Giotto di Bondone (1267–1337) is credited with first treating a painting as a window into space, but it was not until the demonstrations of architect Filippo Brunelleschi (1377–1446) and the subsequent writings of Leon Battista Alberti (1404–1472) that perspective was formalized as an artistic technique.
-
-The development of perspective was part of a wider trend towards realism in the arts. Painters developed other techniques, studying light, shadow, and, famously in the case of Leonardo da Vinci, human anatomy. Underlying these changes in artistic method was a renewed desire to depict the beauty of nature and to unravel the axioms of aesthetics, with the works of Leonardo, Michelangelo and Raphael representing artistic pinnacles that were much imitated by other artists. 

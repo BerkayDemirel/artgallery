@@ -1,26 +1,76 @@
-import fs from 'fs-extra';
+import fs from 'fs/promises';
 import path from 'path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
 import { v4 as uuidv4 } from 'uuid';
+import { Period, Artwork } from '../types';
 
 // Base paths for data
-const PERIODS_DIR = path.join(__dirname, '../../data/periods');
-const ARTWORKS_DIR = path.join(__dirname, '../../data/artworks');
-const NEWSLETTER_FILE = path.join(__dirname, '../../data/newsletter.json');
+const DATA_DIR = path.resolve(__dirname, '../../data');
+const PERIODS_DIR = path.join(DATA_DIR, 'periods');
+const ARTWORKS_DIR = path.join(DATA_DIR, 'artworks');
+const NEWSLETTER_FILE = path.join(DATA_DIR, 'newsletter.json');
 
 // Ensure directories exist
-fs.ensureDirSync(PERIODS_DIR);
-fs.ensureDirSync(ARTWORKS_DIR);
+fs.ensureDir(PERIODS_DIR);
+fs.ensureDir(ARTWORKS_DIR);
 
 // Initialize newsletter file if it doesn't exist
-if (!fs.existsSync(NEWSLETTER_FILE)) {
-  fs.writeJSONSync(NEWSLETTER_FILE, { subscriptions: [] });
+if (!fs.access(NEWSLETTER_FILE).then(() => false).catch(() => true)) {
+  fs.writeFile(NEWSLETTER_FILE, JSON.stringify({ subscriptions: [] }));
 }
+
+class FileService<T> {
+  constructor(private directory: string) {}
+
+  async getAll(): Promise<T[]> {
+    try {
+      const files = await fs.readdir(this.directory);
+      const items = await Promise.all(
+        files
+          .filter(file => file.endsWith('.md'))
+          .map(async file => {
+            const content = await fs.readFile(path.join(this.directory, file), 'utf-8');
+            const { data } = matter(content);
+            return data as T;
+          })
+      );
+      return items;
+    } catch (error) {
+      console.error(`Error reading from ${this.directory}:`, error);
+      return [];
+    }
+  }
+
+  async getBySlug(slug: string): Promise<T | null> {
+    try {
+      const filePath = path.join(this.directory, `${slug}.md`);
+      const content = await fs.readFile(filePath, 'utf-8');
+      const { data } = matter(content);
+      return data as T;
+    } catch (error) {
+      console.error(`Error reading file ${slug}.md:`, error);
+      return null;
+    }
+  }
+
+  async search(query: string): Promise<T[]> {
+    const items = await this.getAll();
+    const searchTerms = query.toLowerCase().split(' ');
+    
+    return items.filter(item => {
+      const itemStr = JSON.stringify(item).toLowerCase();
+      return searchTerms.every(term => itemStr.includes(term));
+    });
+  }
+}
+
+export const periodsService = new FileService<Period>(PERIODS_DIR);
+export const artworksService = new FileService<Artwork>(ARTWORKS_DIR);
 
 // Helper to read markdown file with frontmatter
 export function readMarkdownFile(filePath: string) {
-  const fileContent = fs.readFileSync(filePath, 'utf-8');
+  const fileContent = fs.readFile(filePath, 'utf-8');
   const { data, content } = matter(fileContent);
   const htmlContent = marked(content);
   
@@ -30,72 +80,6 @@ export function readMarkdownFile(filePath: string) {
     rawContent: content
   };
 }
-
-// Periods Service
-export const periodsService = {
-  // Get all periods
-  async getAllPeriods() {
-    const periodFiles = await fs.readdir(PERIODS_DIR);
-    
-    return periodFiles
-      .filter(file => file.endsWith('.md'))
-      .map(file => {
-        const filePath = path.join(PERIODS_DIR, file);
-        const { id, name, card_image_url, description } = readMarkdownFile(filePath);
-        
-        return {
-          id,
-          name,
-          card_image_url,
-          description
-        };
-      });
-  },
-  
-  // Get a specific period by ID
-  async getPeriodById(id: string) {
-    const filePath = path.join(PERIODS_DIR, `${id}.md`);
-    
-    if (!fs.existsSync(filePath)) {
-      return null;
-    }
-    
-    return readMarkdownFile(filePath);
-  }
-};
-
-// Artworks Service
-export const artworksService = {
-  // Get all artworks with optional period filter
-  async getArtworks(periodId?: string) {
-    const artworkFiles = await fs.readdir(ARTWORKS_DIR);
-    
-    const artworks = artworkFiles
-      .filter(file => file.endsWith('.md'))
-      .map(file => {
-        const filePath = path.join(ARTWORKS_DIR, file);
-        return readMarkdownFile(filePath);
-      });
-    
-    // Filter by period if provided
-    if (periodId) {
-      return artworks.filter(artwork => artwork.period === periodId);
-    }
-    
-    return artworks;
-  },
-  
-  // Get a specific artwork by ID
-  async getArtworkById(id: string) {
-    const filePath = path.join(ARTWORKS_DIR, `${id}.md`);
-    
-    if (!fs.existsSync(filePath)) {
-      return null;
-    }
-    
-    return readMarkdownFile(filePath);
-  }
-};
 
 // Newsletter Service
 export const newsletterService = {
@@ -127,4 +111,10 @@ export const newsletterService = {
     
     return { success: true, data: newSubscription };
   }
-}; 
+};
+
+// Helper function to get artworks by period
+export async function getArtworksByPeriod(periodSlug: string): Promise<Artwork[]> {
+  const allArtworks = await artworksService.getAll();
+  return allArtworks.filter(artwork => artwork.period === periodSlug);
+} 
