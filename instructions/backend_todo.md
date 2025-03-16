@@ -1,0 +1,490 @@
+# Backend Developer TODO Checklist
+
+## Infrastructure Setup
+
+### Database Setup
+- [ ] Create new Supabase project
+- [ ] Set secure password and store safely
+- [ ] Configure project settings:
+  - [ ] Region selection for optimal performance
+  - [ ] Database name and description
+  - [ ] Pricing plan selection
+- [ ] Create local .env file with environment variables:
+  - [ ] SUPABASE_URL
+  - [ ] SUPABASE_ANON_KEY
+  - [ ] SUPABASE_SERVICE_ROLE_KEY
+- [ ] Configure authentication settings:
+  - [ ] Disable signup (not needed for MVP)
+  - [ ] Set auth redirects (if needed)
+  - [ ] Configure JWT expiry times
+- [ ] Set up security policies for public access
+- [ ] Create database connection helper:
+  - [ ] Supabase client initialization
+  - [ ] Query helper functions
+  - [ ] Error handling utilities
+- [ ] Test database connection
+- [ ] Document database access information (securely)
+
+### Schema Implementation
+- [ ] Create the following database tables:
+  - [ ] Periods table:
+    - [ ] id (uuid, primary key)
+    - [ ] name (string)
+    - [ ] card_image_url (string)
+    - [ ] header_image_url (string)
+    - [ ] introduction (text)
+    - [ ] timeline_data (json)
+    - [ ] defining_features (json)
+    - [ ] revolutionary_artists (json)
+    - [ ] did_you_know (json)
+    - [ ] created_at (timestamp)
+  - [ ] Artworks table:
+    - [ ] id (uuid, primary key)
+    - [ ] title (string)
+    - [ ] artist (string)
+    - [ ] year (integer)
+    - [ ] country (string)
+    - [ ] period (string, foreign key)
+    - [ ] image_url (string)
+    - [ ] relevance (text)
+    - [ ] trivia (json)
+    - [ ] created_at (timestamp)
+  - [ ] Newsletter table:
+    - [ ] id (uuid, primary key)
+    - [ ] email (string, unique)
+    - [ ] created_at (timestamp)
+- [ ] Set up foreign key relationships:
+  - [ ] Artwork to Period relationship
+- [ ] Create indexes for frequent queries:
+  - [ ] period name index
+  - [ ] artwork title index
+  - [ ] email index for newsletter
+- [ ] Create storage buckets for artwork images:
+  - [ ] period-images bucket
+  - [ ] artwork-images bucket
+- [ ] Configure public access policies for images
+- [ ] Set up database migrations:
+  - [ ] Create initial migration files
+  - [ ] Document migration process
+- [ ] Create TypeScript type definitions for database entities
+- [ ] Test all database operations manually
+- [ ] Document schema design and rationale
+
+### Server Initialization
+- [ ] Initialize Node.js project with TypeScript
+- [ ] Configure tsconfig.json for server environment
+- [ ] Install necessary dependencies:
+  - [ ] Express
+  - [ ] CORS middleware
+  - [ ] Body parser
+  - [ ] Compression
+  - [ ] Winston/Morgan for logging
+  - [ ] Helmet for security headers
+- [ ] Set up Express server:
+  - [ ] Configure middleware stack
+  - [ ] Set up environment-based configuration
+  - [ ] Create basic server health endpoint
+- [ ] Implement middleware configuration:
+  - [ ] CORS policy setup
+  - [ ] Request body parsing
+  - [ ] Response compression
+  - [ ] Logging configuration
+- [ ] Create API route structure:
+  - [ ] Routes directory organization
+  - [ ] Controller pattern implementation
+  - [ ] Middleware organization
+- [ ] Set up comprehensive error handling:
+  - [ ] Custom error classes
+  - [ ] Error middleware
+  - [ ] Structured error responses
+- [ ] Configure testing infrastructure:
+  - [ ] Jest configuration
+  - [ ] Test database setup
+  - [ ] Test utilities and helpers
+- [ ] Create server startup script
+- [ ] Implement graceful shutdown handling
+- [ ] Test server configuration
+- [ ] Document server architecture and startup process
+
+## Core API Development
+
+### Periods API
+- [ ] Define route structure for periods endpoints
+- [ ] Implement route handlers:
+  - [ ] GET /api/periods
+  - [ ] GET /api/periods/:id
+- [ ] Create controller functions:
+  - [ ] listPeriods (with filtering/sorting)
+  - [ ] getPeriodById
+- [ ] Implement data access layer:
+  - [ ] Database query functions
+  - [ ] Result transformation
+- [ ] Add filtering options:
+  - [ ] By name
+  - [ ] By chronological order
+- [ ] Implement sorting options:
+  - [ ] Alphabetical
+  - [ ] Chronological
+- [ ] Add data validation:
+  - [ ] Input validation
+  - [ ] Parameter validation
+- [ ] Implement error handling:
+  - [ ] Not found responses
+  - [ ] Invalid parameter responses
+  - [ ] Server error handling
+- [ ] Write unit tests:
+  - [ ] Test successful responses
+  - [ ] Test filtering and sorting
+  - [ ] Test error scenarios
+- [ ] Document API endpoints with examples
+- [ ] Test API manually using Postman/Insomnia
+
+### Artworks API
+- [ ] Define route structure for artworks endpoints
+- [ ] Implement route handlers:
+  - [ ] GET /api/artworks
+  - [ ] GET /api/artworks/:id
+- [ ] Create controller functions:
+  - [ ] listArtworks (with filtering)
+  - [ ] getArtworkById
+- [ ] Implement data access layer:
+  - [ ] Database query functions
+  - [ ] Result transformation
+- [ ] Add filtering options:
+  - [ ] By period
+  - [ ] By artist
+  - [ ] By year/date range
+- [ ] Implement sorting options:
+  - [ ] By year
+  - [ ] By artist name
+  - [ ] By title
+- [ ] Add pagination for large result sets:
+  - [ ] Limit/offset parameters
+  - [ ] Pagination metadata
+- [ ] Implement data validation:
+  - [ ] Input validation
+  - [ ] Parameter validation
+- [ ] Add error handling:
+  - [ ] Not found responses
+  - [ ] Invalid parameter responses
+  - [ ] Server error handling
+- [ ] Write unit tests:
+  - [ ] Test successful responses
+  - [ ] Test filtering, sorting, pagination
+  - [ ] Test error scenarios
+- [ ] Document API endpoints with examples
+- [ ] Test API manually using Postman/Insomnia
+
+### Newsletter API
+- [ ] Define route for newsletter endpoint
+- [ ] Implement route handler:
+  - [ ] POST /api/newsletter
+- [ ] Create controller function:
+  - [ ] subscribeToNewsletter
+- [ ] Implement data access layer:
+  - [ ] Email storage function
+  - [ ] Duplicate check function
+- [ ] Add email validation:
+  - [ ] Format validation
+  - [ ] Domain validation
+- [ ] Implement error handling:
+  - [ ] Invalid email format
+  - [ ] Duplicate email
+  - [ ] Server errors
+- [ ] Add rate limiting:
+  - [ ] Per-IP rate limits
+  - [ ] Configuration options
+- [ ] Write unit tests:
+  - [ ] Test successful subscription
+  - [ ] Test validation errors
+  - [ ] Test duplicate handling
+  - [ ] Test rate limiting
+- [ ] Document API endpoint with examples
+- [ ] Test API manually using Postman/Insomnia
+
+## Content Generation
+
+### AI Integration
+- [ ] Set up API keys for AI services:
+  - [ ] OpenAI API key
+  - [ ] Gemini API key
+- [ ] Create secure key storage in .env
+- [ ] Implement OpenAI API client:
+  - [ ] Client configuration
+  - [ ] Request construction
+  - [ ] Response handling
+- [ ] Create Gemini API client:
+  - [ ] Client configuration
+  - [ ] Request construction
+  - [ ] Response handling
+- [ ] Build prompt management system:
+  - [ ] Prompt templates
+  - [ ] Variable substitution
+  - [ ] Context management
+- [ ] Implement response parsing:
+  - [ ] JSON validation
+  - [ ] Error detection
+  - [ ] Content extraction
+- [ ] Add error handling and retry logic:
+  - [ ] Rate limit detection
+  - [ ] Exponential backoff
+  - [ ] Maximum retry configuration
+- [ ] Create utility functions:
+  - [ ] Text generation
+  - [ ] Structured data generation
+  - [ ] Content refinement
+- [ ] Write tests:
+  - [ ] Mock API responses
+  - [ ] Test client functionality
+  - [ ] Test error handling
+  - [ ] Test retry logic
+- [ ] Document AI integration with examples
+- [ ] Create usage tracking for API costs
+
+### Artwork Collection Pipeline
+- [ ] Design prompts for artwork collection:
+  - [ ] Create system prompt for art curator persona
+  - [ ] Design input format for art period theme
+  - [ ] Specify output format for artwork data
+- [ ] Implement prompt construction:
+  - [ ] Template with variables
+  - [ ] Example outputs for few-shot learning
+  - [ ] Parameter configuration
+- [ ] Create processing for AI responses:
+  - [ ] JSON parsing
+  - [ ] Schema validation
+  - [ ] Type conversion
+- [ ] Implement storage of generated data:
+  - [ ] Database insertion
+  - [ ] Update for existing entries
+  - [ ] Image URL placeholder generation
+- [ ] Add validation for artwork data:
+  - [ ] Required fields check
+  - [ ] Date range validation
+  - [ ] Content quality checks
+- [ ] Create standalone command-line script
+- [ ] Implement API endpoint for triggering generation
+- [ ] Write tests:
+  - [ ] Prompt generation tests
+  - [ ] Response parsing tests
+  - [ ] Validation tests
+  - [ ] Storage tests
+- [ ] Document the pipeline process
+- [ ] Test end-to-end with real API calls
+
+### Exposition Generation Pipeline
+- [ ] Design prompts for exposition generation:
+  - [ ] Create system prompt for art educator persona
+  - [ ] Design input format using artwork collection
+  - [ ] Specify output format for period content
+- [ ] Implement prompt construction:
+  - [ ] Template with variables
+  - [ ] Example outputs for few-shot learning
+  - [ ] Parameter configuration
+- [ ] Create processing for AI responses:
+  - [ ] JSON parsing
+  - [ ] Schema validation
+  - [ ] Type conversion
+- [ ] Implement storage of generated exposition:
+  - [ ] Database insertion
+  - [ ] Update for existing entries
+- [ ] Add validation for exposition data:
+  - [ ] Required sections check
+  - [ ] Content quality validation
+  - [ ] Structure verification
+- [ ] Create standalone command-line script
+- [ ] Implement API endpoint for triggering generation
+- [ ] Write tests:
+  - [ ] Prompt generation tests
+  - [ ] Response parsing tests
+  - [ ] Validation tests
+  - [ ] Storage tests
+- [ ] Document the pipeline process
+- [ ] Test end-to-end with real API calls
+
+### Initial Content Seeding
+- [ ] Create seeding script for initial content:
+  - [ ] Function to generate Renaissance period
+  - [ ] Function to generate Baroque period
+  - [ ] Function to generate Rococo period
+- [ ] Implement artwork generation for each period
+- [ ] Add sample image references:
+  - [ ] Collect URLs for public domain art
+  - [ ] Create metadata with attribution
+- [ ] Implement database clearing function
+- [ ] Add content validation before insertion
+- [ ] Create progress logging:
+  - [ ] Console output
+  - [ ] Log file generation
+- [ ] Make script idempotent (safe to run multiple times)
+- [ ] Add command-line arguments for customization
+- [ ] Write tests for seeding functions
+- [ ] Document seeding process
+- [ ] Test with real database
+
+## Security & Performance
+
+### API Security
+- [ ] Implement input validation:
+  - [ ] Install validation library (Joi, Zod, etc.)
+  - [ ] Create validation schemas for all endpoints
+  - [ ] Add validation middleware
+- [ ] Configure parameter validation:
+  - [ ] URL parameter sanitization
+  - [ ] Query parameter validation
+- [ ] Set up CORS policies:
+  - [ ] Configure allowed origins
+  - [ ] Handle preflight requests
+  - [ ] Set appropriate CORS headers
+- [ ] Implement security headers:
+  - [ ] Content-Security-Policy
+  - [ ] X-Content-Type-Options
+  - [ ] X-Frame-Options
+  - [ ] Referrer-Policy
+- [ ] Add rate limiting:
+  - [ ] Per-IP rate limiting
+  - [ ] Endpoint-specific limits
+  - [ ] Response headers for limit information
+- [ ] Set up request logging:
+  - [ ] Request details logging
+  - [ ] PII exclusion
+  - [ ] Log rotation configuration
+- [ ] Implement API key validation (if needed)
+- [ ] Write tests for security measures
+- [ ] Conduct basic security audit
+- [ ] Document security implementations
+
+### Performance Optimization
+- [ ] Optimize database queries:
+  - [ ] Review and optimize frequent queries
+  - [ ] Add appropriate indexes
+  - [ ] Implement query caching where beneficial
+- [ ] Add response caching:
+  - [ ] Set up in-memory cache (Redis or similar)
+  - [ ] Configure cache duration by endpoint
+  - [ ] Implement cache invalidation
+- [ ] Add cache headers for client-side caching:
+  - [ ] ETag implementation
+  - [ ] Cache-Control headers
+  - [ ] Last-Modified headers
+- [ ] Implement compression:
+  - [ ] gzip/brotli configuration
+  - [ ] Appropriate content type handling
+- [ ] Add performance monitoring:
+  - [ ] Response time tracking
+  - [ ] Slow query detection
+  - [ ] Resource usage monitoring
+- [ ] Optimize larger responses:
+  - [ ] Pagination implementation
+  - [ ] Field selection options
+  - [ ] Response filtering
+- [ ] Write tests for performance improvements
+- [ ] Document optimization strategies
+- [ ] Conduct performance testing
+
+## Deployment & Monitoring
+
+### Deployment Configuration
+- [ ] Set up Vercel project:
+  - [ ] Connect to GitHub repository
+  - [ ] Configure project settings
+- [ ] Create vercel.json configuration:
+  - [ ] Build commands
+  - [ ] Environment variables
+  - [ ] Serverless function configuration
+- [ ] Set up environment-specific configurations:
+  - [ ] Development settings
+  - [ ] Staging settings
+  - [ ] Production settings
+- [ ] Configure environment variables:
+  - [ ] Database connection
+  - [ ] API keys
+  - [ ] Feature flags
+- [ ] Set up CI/CD pipeline:
+  - [ ] Configure GitHub actions
+  - [ ] Set up automated testing
+  - [ ] Configure deployment triggers
+- [ ] Implement preview deployments:
+  - [ ] PR preview settings
+  - [ ] Environment variable handling
+- [ ] Create database migration script
+- [ ] Add post-deployment verification
+- [ ] Document deployment process
+- [ ] Test deployment process
+
+### Monitoring Integration
+- [ ] Set up error tracking:
+  - [ ] Configure error reporting service
+  - [ ] Implement error capture middleware
+  - [ ] Set up error notifications
+- [ ] Add structured logging:
+  - [ ] Log levels configuration
+  - [ ] Contextual information
+  - [ ] Log storage solution
+- [ ] Configure performance monitoring:
+  - [ ] API response time tracking
+  - [ ] Database query monitoring
+  - [ ] External API latency tracking
+- [ ] Create health check endpoints:
+  - [ ] API health endpoint
+  - [ ] Database connection check
+  - [ ] Storage access verification
+- [ ] Set up status reporting:
+  - [ ] Status page configuration
+  - [ ] Uptime monitoring
+  - [ ] Incident response process
+- [ ] Implement alerting:
+  - [ ] Critical error alerts
+  - [ ] Performance degradation alerts
+  - [ ] Security incident alerts
+- [ ] Document monitoring setup
+- [ ] Test monitoring systems
+
+### Final Testing
+- [ ] Create end-to-end tests:
+  - [ ] Complete API workflow tests
+  - [ ] Database interaction tests
+  - [ ] Storage interaction tests
+- [ ] Implement load testing:
+  - [ ] Configure testing tools
+  - [ ] Define test scenarios
+  - [ ] Set up test data
+- [ ] Conduct performance testing:
+  - [ ] Measure response times
+  - [ ] Test with simulated load
+  - [ ] Identify bottlenecks
+- [ ] Perform security testing:
+  - [ ] API penetration testing
+  - [ ] Input validation testing
+  - [ ] Rate limit effectiveness
+- [ ] Create comprehensive documentation:
+  - [ ] API documentation
+  - [ ] Database schema documentation
+  - [ ] Deployment guide
+  - [ ] Troubleshooting guide
+- [ ] Conduct final code review
+- [ ] Document known issues and limitations
+- [ ] Create maintenance plan
+
+## Integration Testing
+
+- [ ] Coordinate with frontend developer for integration tests
+- [ ] Test API endpoints with actual frontend requests
+- [ ] Verify data formatting meets frontend requirements
+- [ ] Test image retrieval and storage
+- [ ] Validate newsletter form submission flow
+- [ ] Test error handling between frontend and backend
+- [ ] Document any integration issues discovered
+- [ ] Create integration test environment
+- [ ] Develop integration test suite
+- [ ] Document integration points and requirements
+
+## Communication Checkpoints
+
+- [ ] Initial API contract sharing with frontend developer
+- [ ] Database schema review and approval
+- [ ] Image storage implementation confirmation
+- [ ] Newsletter endpoint integration testing
+- [ ] Regular integration status meetings
+- [ ] Final integration verification before launch
+- [ ] Documentation sharing and review
