@@ -38,3 +38,5 @@ logs/
 
 # Test coverage
 coverage/
+
+.specstory/
