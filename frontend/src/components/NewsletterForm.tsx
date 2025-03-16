@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { subscribeToNewsletter } from '@/lib/api/client';
 import { Button } from '@/components/ui/button';
@@ -10,9 +12,9 @@ export default function NewsletterForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email) return;
-    
+
     try {
       setStatus('loading');
       await subscribeToNewsletter(email);
@@ -31,7 +33,7 @@ export default function NewsletterForm() {
         <CardTitle>Subscribe to our Newsletter</CardTitle>
         <CardDescription>Stay updated with the latest art exhibitions and news</CardDescription>
       </CardHeader>
-      
+
       <CardContent>
         {status === 'success' ? (
           <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
@@ -51,13 +53,13 @@ export default function NewsletterForm() {
                 required
               />
             </div>
-            
+
             {status === 'error' && (
               <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
                 {message}
               </div>
             )}
-            
+
             <Button
               type="submit"
               disabled={status === 'loading'}
@@ -70,4 +72,4 @@ export default function NewsletterForm() {
       </CardContent>
     </Card>
   );
-} 
+}

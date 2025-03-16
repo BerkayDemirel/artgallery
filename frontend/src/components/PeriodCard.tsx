@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Period } from '@/types/api';
@@ -37,11 +39,11 @@ export default function PeriodCard({ period }: PeriodCardProps) {
             <span className="text-gallery-gray">No image available</span>
           </div>
         )}
-        
+
         <CardHeader className="pb-2">
           <CardTitle>{period.name}</CardTitle>
         </CardHeader>
-        
+
         {period.description && (
           <CardContent>
             <CardDescription>{period.description}</CardDescription>
@@ -50,4 +52,4 @@ export default function PeriodCard({ period }: PeriodCardProps) {
       </Card>
     </Link>
   );
-} 
+}
