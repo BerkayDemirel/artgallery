@@ -1,7 +1,7 @@
 import { Period, Artwork } from '@/types/api';
 
-// The backend is running on port 3000
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
+// The backend is running on port 3001
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
 // Mock data for fallback when API is not available
 const mockPeriods: Period[] = [

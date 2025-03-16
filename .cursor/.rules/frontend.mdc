@@ -1,0 +1,6 @@
+---
+description: 
+globs: frontend/*
+alwaysApply: false
+---
+Always terminate currently running servers before starting a new one.

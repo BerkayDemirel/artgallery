@@ -12,6 +12,7 @@ import {
 import { Cormorant } from 'next/font/google';
 import { getAllPeriods } from '@/lib/api';
 import { Period } from '@/types/api';
+import NewsletterForm from '@/components/NewsletterForm';
 
 const cormorant = Cormorant({
   subsets: ['latin'],
@@ -85,7 +86,21 @@ export default function Home() {
                 <Card className="h-full border-none shadow hover:shadow-md transition-all overflow-hidden bg-[#FFF8E7]">
                   <div className="relative h-48 w-full">
                     <Image
-                      src={period.cardImageUrl}
+                      src={
+                        period.slug === 'renaissance' 
+                          ? "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                          : period.slug === 'baroque'
+                          ? "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                          : period.slug === 'rococo'
+                          ? "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                          : period.slug === 'neoclassicism'
+                          ? "https://images.unsplash.com/photo-1580136579312-94651dfd596d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                          : period.slug === 'romanticism'
+                          ? "https://images.unsplash.com/photo-1543857778-c4a1a3e0b2eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                          : period.slug === 'impressionism'
+                          ? "https://images.unsplash.com/photo-1579783901586-d88db74b4fe4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                          : "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                      }
                       alt={period.name}
                       fill
                       style={{ objectFit: 'cover' }}
@@ -103,6 +118,11 @@ export default function Home() {
             ))}
           </div>
         )}
+
+        {/* Newsletter subscription */}
+        <div className="mt-16 max-w-md mx-auto">
+          <NewsletterForm />
+        </div>
       </div>
     </main>
   );

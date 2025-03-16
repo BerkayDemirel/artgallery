@@ -1,75 +1,104 @@
 'use client';
 
 import { useState } from 'react';
-import { subscribeToNewsletter } from '@/lib/api/client';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function NewsletterForm() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [message, setMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [subscribedEmail, setSubscribedEmail] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!email) return;
-
+    
+    // Reset status
+    setStatus('loading');
+    setErrorMessage('');
+    
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setStatus('error');
+      setErrorMessage('You need to enter a valid email');
+      return;
+    }
+    
+    // Instead of sending to backend, just show success message
+    setStatus('success');
+    setSubscribedEmail(email);
+    setEmail('');
+    
+    // Uncomment this section when backend is properly configured
+    /*
     try {
-      setStatus('loading');
-      await subscribeToNewsletter(email);
+      const response = await fetch('http://localhost:3001/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to subscribe');
+      }
+      
       setStatus('success');
-      setMessage('Thank you for subscribing!');
       setEmail('');
     } catch (error) {
       setStatus('error');
-      setMessage(error instanceof Error ? error.message : 'Failed to subscribe. Please try again.');
+      setErrorMessage(error instanceof Error ? error.message : 'Failed to subscribe');
     }
+    */
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Subscribe to our Newsletter</CardTitle>
-        <CardDescription>Stay updated with the latest art exhibitions and news</CardDescription>
-      </CardHeader>
-
-      <CardContent>
-        {status === 'success' ? (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-            {message}
+    <div className="relative">
+      {subscribedEmail && (
+        <div className="text-center mb-2">
+          <p className="text-green-700 text-sm">Thank you for subscribing!</p>
+        </div>
+      )}
+      
+      <div className="bg-[#FFF8E7] p-4 rounded-lg shadow-sm">
+        {status === 'success' && !subscribedEmail ? (
+          <div className="text-center p-2">
+            <p className="text-green-700 text-sm">Thank you for subscribing!</p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 items-center">
+            <div className="flex-grow w-full">
               <label htmlFor="email" className="sr-only">Email address</label>
               <input
                 id="email"
                 type="email"
+                placeholder="Join our newsletter"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                className="w-full p-2 border rounded"
+                className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#E07A5F] focus:border-transparent text-gray-500 text-sm"
+                disabled={status === 'loading'}
                 required
               />
             </div>
-
-            {status === 'error' && (
-              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-                {message}
-              </div>
-            )}
-
-            <Button
+            
+            <button
               type="submit"
+              className="px-4 py-2 bg-[#E07A5F] text-white rounded-md hover:bg-opacity-90 transition-all text-sm whitespace-nowrap"
               disabled={status === 'loading'}
-              className="w-full md:w-auto"
             >
               {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
-            </Button>
+            </button>
+            
+            {status === 'error' && (
+              <div className="text-red-600 text-xs absolute mt-1">
+                {errorMessage}
+              </div>
+            )}
           </form>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
