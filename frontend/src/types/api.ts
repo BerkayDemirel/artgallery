@@ -1,14 +1,15 @@
 // Period types
 export interface Period {
-  id: string;
+  slug: string;
   name: string;
   cardImageUrl: string;
   headerImageUrl: string;
   introduction: string;
   timelineData: TimelineItem[];
-  definingFeatures: DefiningFeature[];
+  definingFeatures: Feature[];
   revolutionaryArtists: Artist[];
   didYouKnow: string[];
+  content?: string;
   createdAt: string;
 }
 
@@ -17,10 +18,10 @@ export interface TimelineItem {
   event: string;
 }
 
-export interface DefiningFeature {
+export interface Feature {
   title: string;
   description: string;
-  imageUrl: string;
+  imageUrl?: string;
 }
 
 export interface Artist {
@@ -32,19 +33,26 @@ export interface Artist {
 
 // Artwork types
 export interface Artwork {
-  id: string;
+  slug: string;
   title: string;
   artist: string;
   year: number;
   country: string;
-  periodId: string;
+  period: string;
   imageUrl: string;
   relevance: string;
   trivia: string[];
+  content?: string;
   createdAt: string;
 }
 
 // Newsletter type
 export interface NewsletterSubscription {
   email: string;
+}
+
+export interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  error?: string;
 } 

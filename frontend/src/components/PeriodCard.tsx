@@ -27,7 +27,7 @@ export default function PeriodCard({ period }: PeriodCardProps) {
       href={`/periods/${period.id}`}
       className="block group h-full"
     >
-      <div className="border border-gray-200 h-full flex flex-col transition-all duration-300 hover:shadow-lg">
+      <div className="border border-gray-200 h-full flex flex-col transition-all duration-300 hover:shadow-lg bg-[#FFF8E7]">
         {/* Card image container */}
         <div className="relative w-full aspect-[3/2] overflow-hidden">
           <Image
@@ -50,9 +50,9 @@ export default function PeriodCard({ period }: PeriodCardProps) {
           <p className="text-gray-700 mb-6">{period.description}</p>
 
           {/* Visual indicator for the card being clickable */}
-          <div className="mt-auto">
+          {/* <div className="mt-auto">
             <span className="text-sm font-medium uppercase tracking-wider">Explore →</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </Link>
