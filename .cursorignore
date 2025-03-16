@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Build outputs
+.next/
+out/
+build/
+dist/
+
+# Large media files
+public/images/
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.mp4
+*.mov
+*.webm
+
+# Generated files
+*.tsbuildinfo
+next-env.d.ts
+
+# Environment files
+.env*
+
+# Logs
+logs/
+*.log
+
+# Cache
+.cache/
+
+# Supabase
+.supabase/
+
+# Test coverage
+coverage/
